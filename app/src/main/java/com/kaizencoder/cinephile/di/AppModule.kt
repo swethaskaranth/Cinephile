@@ -20,6 +20,7 @@ class AppModule {
             val original = chain.request()
             val token = Constants.API_TOKEN
             val request = original.newBuilder()
+                .addHeader("accept", "application/json")
                 .addHeader("Authorization", "Bearer $token")
                 .build()
             chain.proceed(request)
