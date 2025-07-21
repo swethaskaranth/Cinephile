@@ -19,8 +19,13 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String", "API_TOKEN", "\"API_TOKEN\"")
     }
 
+    buildFeatures{
+        buildConfig = true
+    }
     buildTypes {
         release {
             isMinifyEnabled = false

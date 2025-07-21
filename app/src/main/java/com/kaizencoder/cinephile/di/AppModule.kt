@@ -1,5 +1,6 @@
 package com.kaizencoder.cinephile.di
 
+import com.kaizencoder.cinephile.BuildConfig
 import com.kaizencoder.cinephile.Constants
 import com.kaizencoder.cinephile.networking.APIService
 import dagger.Module
@@ -18,7 +19,7 @@ class AppModule {
     fun okHttpClient() = OkHttpClient.Builder()
         .addInterceptor{ chain ->
             val original = chain.request()
-            val token = Constants.API_TOKEN
+            val token = BuildConfig.API_TOKEN
             val request = original.newBuilder()
                 .addHeader("accept", "application/json")
                 .addHeader("Authorization", "Bearer $token")
