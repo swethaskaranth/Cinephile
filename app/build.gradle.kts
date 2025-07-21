@@ -7,6 +7,8 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
 }
 
+val apiKey: String? = project.findProperty("API_KEY") as String?
+
 android {
     namespace = "com.kaizencoder.cinephile"
     compileSdk = 35
@@ -20,7 +22,7 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        buildConfigField("String", "API_TOKEN", "\"API_TOKEN\"")
+        buildConfigField("String", "API_TOKEN", "\"$apiKey\"")
     }
 
     buildFeatures{
@@ -68,6 +70,7 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.moshi.converter)
     implementation(libs.moshi.kotlin)
+    implementation(libs.http.logging.interceptor)
 
     implementation(libs.hilt)
     ksp(libs.hilt.compiler)
@@ -80,4 +83,7 @@ dependencies {
 
     implementation(libs.paging.runtime)
     implementation(libs.paging.compose)
+
+    implementation(libs.coil)
+    implementation(libs.coil.network)
 }

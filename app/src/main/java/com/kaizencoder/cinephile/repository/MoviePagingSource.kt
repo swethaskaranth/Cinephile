@@ -1,5 +1,6 @@
 package com.kaizencoder.cinephile.repository
 
+import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.kaizencoder.cinephile.networking.APIService
@@ -19,12 +20,15 @@ class MoviePagingSource(private val apiService: APIService): PagingSource<Int, M
 
         return try {
             val results = apiService.getMovies(page)
+            Log.i("MovieListScreen", "Fetched results ${results.results.size}")
             LoadResult.Page(
                 data = results.results,
                 prevKey = if(page == 1) null else page.minus(1),
                 nextKey = if(page == results.total_pages) null else page.plus(1)
             )
         }catch (ex : Exception){
+            ex.printStackTrace()
+            Log.i("MovieListScreen", "Threw exception ${ex.stackTrace}")
             LoadResult.Error(ex)
         }
     }
