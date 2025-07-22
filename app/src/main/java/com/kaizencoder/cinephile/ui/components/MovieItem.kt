@@ -43,15 +43,6 @@ fun MovieItem(movie: Movie) {
             Log.i("MovieListScreen","Movie poster ${Constants.IMAGE_BASE_URL + movie.poster_path}")
         }
         Column {
-        /*    Image(
-                painter = painterResource(R.drawable.test_image),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .aspectRatio(2f / 3f)
-                    .clip(RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp)),
-                contentScale = ContentScale.Fit,
-                contentDescription = "movie_poster"
-            )*/
 
             val context = LocalContext.current
             val posterPath = movie.poster_path ?: ""
