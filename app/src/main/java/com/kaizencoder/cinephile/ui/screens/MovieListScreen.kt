@@ -2,8 +2,10 @@ package com.kaizencoder.cinephile.ui.screens
 
 import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.Composable
@@ -13,6 +15,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.kaizencoder.cinephile.ui.MovieViewModel
+import com.kaizencoder.cinephile.ui.components.MovieItem
+import com.kaizencoder.cinephile.ui.components.MovieSection
 
 @Composable
 fun MovieListScreen(
@@ -20,24 +24,30 @@ fun MovieListScreen(
     movieViewModel: MovieViewModel = hiltViewModel()
 ) {
 
-    val movies = movieViewModel.movies.collectAsLazyPagingItems()
+    val popularMovies = movieViewModel.popularMovies.collectAsLazyPagingItems()
+    val nowPlayingMovies = movieViewModel.nowPlayingMovies.collectAsLazyPagingItems()
+    val topRatedMovies = movieViewModel.topRatedMovies.collectAsLazyPagingItems()
+    val upcomingMovies = movieViewModel.upcomingMovies.collectAsLazyPagingItems()
 
     LaunchedEffect(true) {
-        Log.i("MovieListScreen","Inside Movie List Screen composable")
+        Log.i("MovieListScreen", "Inside Movie List Screen composable")
     }
 
-    LazyVerticalGrid(
-        columns = GridCells.Fixed(2),
-        modifier = modifier.fillMaxSize(),
-        contentPadding = PaddingValues(8.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
+    LazyColumn(
+        modifier,
+        verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-
-        items(movies.itemCount) { index ->
-            val movie = movies[index]
-            movie?.let { MovieItem(it) }
+        item {
+            MovieSection("Popular Movies", popularMovies)
         }
-
+        item {
+            MovieSection("Now Playing", nowPlayingMovies)
+        }
+        item {
+            MovieSection("Top Rated Movies", topRatedMovies)
+        }
+        item {
+            MovieSection("Upcoming Movies", upcomingMovies)
+        }
     }
 }

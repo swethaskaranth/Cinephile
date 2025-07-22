@@ -1,4 +1,4 @@
-package com.kaizencoder.cinephile.ui.screens
+package com.kaizencoder.cinephile.ui.components
 
 import android.util.Log
 import androidx.compose.foundation.layout.Column
@@ -26,9 +26,11 @@ import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import coil3.request.crossfade
 import coil3.util.DebugLogger
+import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.kaizencoder.cinephile.Constants
 import com.kaizencoder.cinephile.networking.response.Movie
 
+@OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun MovieItem(movie: Movie) {
     Card(
@@ -60,18 +62,26 @@ fun MovieItem(movie: Movie) {
             val imageLoader = ImageLoader.Builder(LocalContext.current)
                 .logger(DebugLogger()) // Add this
                 .build()
-            AsyncImage(model = ImageRequest.Builder(LocalContext.current)
-                .data(imageUrl)
-                .crossfade(true)
-                .build(),
-                imageLoader = imageLoader,
+
+            /*GlideImage(
+                model = imageUrl,
                 contentDescription = "movie_poster",
                 modifier = Modifier
                     .fillMaxWidth()
                     .aspectRatio(2f / 3f)
                     .clip(RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp)),
-                contentScale = ContentScale.Fit,)
-
+                contentScale = ContentScale.Fit
+            )*/
+            AsyncImage(model = ImageRequest.Builder(LocalContext.current)
+                .data(imageUrl)
+                .crossfade(true)
+                .build(),
+                contentDescription = "movie_poster",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .aspectRatio(2f / 3f)
+                    .clip(RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp)),
+                contentScale = ContentScale.Fit)
             Column(modifier = Modifier.height(72.dp).padding(horizontal = 12.dp, vertical = 8.dp)) {
                 Text(
                     text = movie.title,
