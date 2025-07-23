@@ -78,7 +78,6 @@ class MainActivity : ComponentActivity() {
                                 })
                         }
                         composable<Route.MovieDetailScreen> { backStackEntry ->
-                            val details: Route.MovieDetailScreen = backStackEntry.toRoute()
                             val detailViewModel: MovieDetailViewModel = hiltViewModel()
                             MovieDetailScreen(
                                 detailViewModel,

@@ -2,19 +2,19 @@ package com.kaizencoder.cinephile.networking.response
 
 data class MovieDetail(
     val adult: Boolean,
-    val backdrop_path: String,
-    val belongs_to_collection: Any,
+    val backdrop_path: String?,
+    val belongs_to_collection: Any?,
     val budget: Int,
     val genres: List<Genre>,
-    val homepage: String,
+    val homepage: String?,
     val id: Int,
-    val imdb_id: String,
-    val origin_country: List<String>,
-    val original_language: String,
+    val imdb_id: String?,
+    val origin_country: List<String>?,
+    val original_language: String?,
     val original_title: String,
     val overview: String,
     val popularity: Double,
-    val poster_path: String,
+    val poster_path: String?,
     val production_companies: List<ProductionCompany>,
     val production_countries: List<ProductionCountry>,
     val release_date: String,
@@ -36,7 +36,7 @@ data class Genre(
 
 data class ProductionCompany(
     val id: Int,
-    val logo_path: String,
+    val logo_path: String?,
     val name: String,
     val origin_country: String
 )
