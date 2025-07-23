@@ -1,10 +1,12 @@
 package com.kaizencoder.cinephile.ui.components
 
 import android.util.Log
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -14,6 +16,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
@@ -37,11 +40,11 @@ fun MovieItem(movie: Movie, onClick: (Int) -> Unit) {
         modifier = Modifier
             .width(160.dp),
         elevation = CardDefaults.cardElevation(6.dp),
-        onClick = { onClick(movie.id)}
+        onClick = { onClick(movie.id) }
     ) {
 
         LaunchedEffect(true) {
-            Log.i("MovieListScreen","Movie poster ${Constants.IMAGE_BASE_URL + movie.poster_path}")
+            Log.i("MovieListScreen", "Movie poster ${Constants.IMAGE_BASE_URL + movie.poster_path}")
         }
         Column {
 
@@ -55,26 +58,31 @@ fun MovieItem(movie: Movie, onClick: (Int) -> Unit) {
                 .logger(DebugLogger()) // Add this
                 .build()
 
-            /*GlideImage(
-                model = imageUrl,
-                contentDescription = "movie_poster",
+            Box(Modifier.padding(bottom = 20.dp)) {
+                AsyncImage(
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data(imageUrl)
+                        .crossfade(true)
+                        .build(),
+                    contentDescription = "movie_poster",
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .aspectRatio(2f / 3f)
+                        .clip(RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp)),
+                    contentScale = ContentScale.Fit,
+                )
+                    Rating(movie.vote_average, Modifier.align(Alignment.BottomStart)
+                        .offset(y=20.dp)
+                        .padding(start = 12.dp))
+
+
+            }
+
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .aspectRatio(2f / 3f)
-                    .clip(RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp)),
-                contentScale = ContentScale.Fit
-            )*/
-            AsyncImage(model = ImageRequest.Builder(LocalContext.current)
-                .data(imageUrl)
-                .crossfade(true)
-                .build(),
-                contentDescription = "movie_poster",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .aspectRatio(2f / 3f)
-                    .clip(RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp)),
-                contentScale = ContentScale.Fit)
-            Column(modifier = Modifier.height(72.dp).padding(horizontal = 12.dp, vertical = 8.dp)) {
+                    .height(72.dp)
+                    .padding(horizontal = 12.dp, vertical = 8.dp)
+            ) {
                 Text(
                     text = movie.title,
                     style = MaterialTheme.typography.bodyMedium,
