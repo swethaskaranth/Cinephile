@@ -1,4 +1,11 @@
 package com.kaizencoder.cinephile.ui
 
-class Route {
+import com.kaizencoder.cinephile.model.MovieCategory
+import kotlinx.serialization.Serializable
+
+sealed class Route {
+    @Serializable
+    object HomeScreen: Route()
+    @Serializable
+    data class MovieListingScreen(val category: MovieCategory): Route()
 }

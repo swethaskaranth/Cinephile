@@ -9,12 +9,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.kaizencoder.cinephile.model.MovieCategory
 import com.kaizencoder.cinephile.ui.MovieViewModel
 import com.kaizencoder.cinephile.ui.components.MovieSection
 
 @Composable
 fun MovieHomeScreen(
     modifier: Modifier = Modifier,
+    onNavigateToCategory: (MovieCategory) -> Unit,
     movieViewModel: MovieViewModel = hiltViewModel()
 ) {
 
@@ -32,16 +34,28 @@ fun MovieHomeScreen(
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         item {
-            MovieSection("Popular Movies", popularMovies)
+            MovieSection(
+                "Popular Movies",
+                popularMovies
+            ) { onNavigateToCategory(MovieCategory.POPULAR) }
         }
         item {
-            MovieSection("Now Playing", nowPlayingMovies)
+            MovieSection(
+                "Now Playing",
+                nowPlayingMovies
+            ) { onNavigateToCategory(MovieCategory.NOW_PLAYING) }
         }
         item {
-            MovieSection("Top Rated Movies", topRatedMovies)
+            MovieSection(
+                "Top Rated Movies",
+                topRatedMovies
+            ) { onNavigateToCategory(MovieCategory.TOP_RATED) }
         }
         item {
-            MovieSection("Upcoming Movies", upcomingMovies)
+            MovieSection(
+                "Upcoming Movies",
+                upcomingMovies
+            ) { onNavigateToCategory(MovieCategory.UPCOMING) }
         }
     }
 }

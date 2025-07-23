@@ -14,8 +14,14 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBar
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
+import com.kaizencoder.cinephile.ui.Route
 import com.kaizencoder.cinephile.ui.components.AppLogo
 import com.kaizencoder.cinephile.ui.screens.MovieHomeScreen
+import com.kaizencoder.cinephile.ui.screens.MovieListScreen
 import com.kaizencoder.cinephile.ui.theme.CinephileTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -39,7 +45,21 @@ class MainActivity : ComponentActivity() {
                             }
                         )
                     }) { innerPadding ->
-                    MovieHomeScreen(Modifier.padding(innerPadding))
+                    val navController = rememberNavController()
+                    NavHost(navController = navController,
+                        startDestination = Route.HomeScreen){
+                        composable<Route.HomeScreen> {
+                            MovieHomeScreen(Modifier.padding(innerPadding),
+                                onNavigateToCategory = {category ->
+                                    navController.navigate(Route.MovieListingScreen(category))
+                                })
+                        }
+                        composable<Route.MovieListingScreen> { backStackEntry ->
+                            val details: Route.MovieListingScreen = backStackEntry.toRoute()
+                            MovieListScreen(details.category, Modifier.padding(innerPadding))
+                        }
+                    }
+
                 }
             }
         }
