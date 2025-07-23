@@ -8,4 +8,6 @@ sealed class Route {
     object HomeScreen: Route()
     @Serializable
     data class MovieListingScreen(val category: MovieCategory): Route()
+    @Serializable
+    data class MovieDetailScreen(val movieId: Int): Route()
 }

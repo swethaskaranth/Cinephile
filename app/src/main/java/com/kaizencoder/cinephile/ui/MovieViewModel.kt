@@ -19,5 +19,4 @@ class MovieViewModel @Inject constructor(repository: MovieRepository): ViewModel
     val topRatedMovies : Flow<PagingData<Movie>> = repository.getMovies(MovieCategory.TOP_RATED).cachedIn(viewModelScope)
     val upcomingMovies : Flow<PagingData<Movie>> = repository.getMovies(MovieCategory.UPCOMING).cachedIn(viewModelScope)
 
-
 }

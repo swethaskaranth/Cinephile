@@ -28,6 +28,7 @@ import com.kaizencoder.cinephile.ui.utils.shimmerAnimationEffect
 fun MovieListScreen(
     category: MovieCategory,
     modifier: Modifier = Modifier,
+    onClick: (Int) -> Unit,
     viewModel: MovieViewModel = hiltViewModel()
 ) {
 
@@ -74,7 +75,7 @@ fun MovieListScreen(
                 items(movies.itemCount) { index ->
                     val movie = movies[index];
                     movie?.let {
-                        MovieItem(it)
+                        MovieItem(it, onClick)
                     }
                 }
             }

@@ -17,6 +17,7 @@ import com.kaizencoder.cinephile.ui.components.MovieSection
 fun MovieHomeScreen(
     modifier: Modifier = Modifier,
     onNavigateToCategory: (MovieCategory) -> Unit,
+    onCardClick: (Int) -> Unit,
     movieViewModel: MovieViewModel = hiltViewModel()
 ) {
 
@@ -36,26 +37,33 @@ fun MovieHomeScreen(
         item {
             MovieSection(
                 "Popular Movies",
-                popularMovies
-            ) { onNavigateToCategory(MovieCategory.POPULAR) }
+                popularMovies,
+                { onNavigateToCategory(MovieCategory.POPULAR) },
+                onCardClick
+            )
         }
         item {
             MovieSection(
                 "Now Playing",
-                nowPlayingMovies
-            ) { onNavigateToCategory(MovieCategory.NOW_PLAYING) }
+                nowPlayingMovies,
+                { onNavigateToCategory(MovieCategory.NOW_PLAYING) },
+                onCardClick
+            )
         }
         item {
             MovieSection(
                 "Top Rated Movies",
-                topRatedMovies
-            ) { onNavigateToCategory(MovieCategory.TOP_RATED) }
+                topRatedMovies,
+                { onNavigateToCategory(MovieCategory.TOP_RATED) },
+                onCardClick
+            )
         }
         item {
             MovieSection(
                 "Upcoming Movies",
-                upcomingMovies
-            ) { onNavigateToCategory(MovieCategory.UPCOMING) }
+                upcomingMovies, { onNavigateToCategory(MovieCategory.UPCOMING) },
+                onCardClick
+            )
         }
     }
 }

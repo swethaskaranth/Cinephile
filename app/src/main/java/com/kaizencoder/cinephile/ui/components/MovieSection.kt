@@ -26,7 +26,7 @@ import com.kaizencoder.cinephile.networking.response.Movie
 import com.kaizencoder.cinephile.ui.utils.shimmerAnimationEffect
 
 @Composable
-fun MovieSection(title: String, movies: LazyPagingItems<Movie>, onTitleClick : () -> Unit) {
+fun MovieSection(title: String, movies: LazyPagingItems<Movie>, onTitleClick : () -> Unit, onCardClick: (Int) -> Unit,) {
 
     Column(
         modifier = Modifier.background(MaterialTheme.colorScheme.surfaceContainer)
@@ -79,7 +79,7 @@ fun MovieSection(title: String, movies: LazyPagingItems<Movie>, onTitleClick : (
                 ) {
                     items(movies.itemCount) { index ->
                         val movie = movies[index]
-                        movie?.let { MovieItem(it) }
+                        movie?.let { MovieItem(it, onCardClick) }
                     }
                 }
             }

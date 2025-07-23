@@ -32,11 +32,12 @@ import com.kaizencoder.cinephile.networking.response.Movie
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
-fun MovieItem(movie: Movie) {
+fun MovieItem(movie: Movie, onClick: (Int) -> Unit) {
     Card(
         modifier = Modifier
             .width(160.dp),
-        elevation = CardDefaults.cardElevation(6.dp)
+        elevation = CardDefaults.cardElevation(6.dp),
+        onClick = { onClick(movie.id)}
     ) {
 
         LaunchedEffect(true) {
