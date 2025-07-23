@@ -1,47 +1,45 @@
 package com.kaizencoder.cinephile.ui.screens
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.kaizencoder.cinephile.model.MovieCategory
+import com.kaizencoder.cinephile.model.MovieCategory.*
 import com.kaizencoder.cinephile.ui.MovieViewModel
-import com.kaizencoder.cinephile.ui.components.MovieSection
+import com.kaizencoder.cinephile.ui.components.MovieItem
 
 @Composable
 fun MovieListScreen(
+    category: MovieCategory,
     modifier: Modifier = Modifier,
-    movieViewModel: MovieViewModel = hiltViewModel()
+    viewModel: MovieViewModel = hiltViewModel()
 ) {
 
-    val popularMovies = movieViewModel.popularMovies.collectAsLazyPagingItems()
-    val nowPlayingMovies = movieViewModel.nowPlayingMovies.collectAsLazyPagingItems()
-    val topRatedMovies = movieViewModel.topRatedMovies.collectAsLazyPagingItems()
-    val upcomingMovies = movieViewModel.upcomingMovies.collectAsLazyPagingItems()
-
-    LaunchedEffect(true) {
-        Log.i("MovieListScreen", "Inside Movie List Screen composable")
+    val movies = when(category){
+        POPULAR -> viewModel.popularMovies.collectAsLazyPagingItems()
+        NOW_PLAYING -> viewModel.nowPlayingMovies.collectAsLazyPagingItems()
+        TOP_RATED -> viewModel.topRatedMovies.collectAsLazyPagingItems()
+        UPCOMING -> viewModel.upcomingMovies.collectAsLazyPagingItems()
     }
 
-    LazyColumn(
-        modifier,
-        verticalArrangement = Arrangement.spacedBy(12.dp)
+    LazyVerticalGrid(columns = GridCells.Fixed(2),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+        contentPadding = PaddingValues(16.dp)
     ) {
-        item {
-            MovieSection("Popular Movies", popularMovies)
-        }
-        item {
-            MovieSection("Now Playing", nowPlayingMovies)
-        }
-        item {
-            MovieSection("Top Rated Movies", topRatedMovies)
-        }
-        item {
-            MovieSection("Upcoming Movies", upcomingMovies)
-        }
+        items(movies.itemCount) { index ->
+        val movie = movies[index];
+        movie?.let {
+            MovieItem(it)
+        }}
     }
+
+
+
 }
