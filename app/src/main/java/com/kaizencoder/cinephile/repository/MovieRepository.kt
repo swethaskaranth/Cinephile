@@ -7,6 +7,7 @@ import androidx.paging.PagingData
 import com.kaizencoder.cinephile.model.MovieCategory
 import com.kaizencoder.cinephile.networking.APIService
 import com.kaizencoder.cinephile.networking.response.Movie
+import com.kaizencoder.cinephile.networking.response.MovieCreditsResponse
 import com.kaizencoder.cinephile.networking.response.MovieDetail
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -28,5 +29,9 @@ class MovieRepository @Inject constructor(private val apiService: APIService) {
 
     fun getMovieDetails(movieID: Int): Flow<MovieDetail> = flow {
         emit(apiService.getMovieDetails(movieID))
+    }
+
+    fun getMovieCredits(movieId: Int): Flow<MovieCreditsResponse> = flow{
+        emit(apiService.getMovieCredits(movieId))
     }
 }

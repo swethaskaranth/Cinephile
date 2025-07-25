@@ -1,7 +1,9 @@
 package com.kaizencoder.cinephile.networking
 
+import com.kaizencoder.cinephile.networking.response.MovieCreditsResponse
 import com.kaizencoder.cinephile.networking.response.MovieDetail
 import com.kaizencoder.cinephile.networking.response.MovieListResponse
+import kotlinx.coroutines.flow.Flow
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -22,4 +24,7 @@ interface APIService {
 
     @GET("movie/{movieId}")
     suspend fun getMovieDetails(@Path("movieId") id: Int): MovieDetail
+
+    @GET("movie/{movieId}/credits")
+    suspend fun getMovieCredits(@Path("movieId") id: Int, @Query("language") language: String = "en-US") : MovieCreditsResponse
 }
