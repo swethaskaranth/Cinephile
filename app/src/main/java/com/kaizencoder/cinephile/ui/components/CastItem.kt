@@ -1,5 +1,7 @@
 package com.kaizencoder.cinephile.ui.components
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -10,10 +12,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import com.kaizencoder.cinephile.networking.response.Cast
 import com.kaizencoder.cinephile.ui.theme.CinephileTheme
@@ -22,18 +27,10 @@ import com.kaizencoder.cinephile.ui.theme.CinephileTheme
 fun CastItem(cast: Cast) {
 
     Column(
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
 
         val posterPath = cast.profile_path ?: ""
-        /* Image(
-             painter = painterResource(R.drawable.test_cast_image),
-             contentDescription = "csat photo",
-             modifier = Modifier
-                 //.size(100.dp)
-                 .clip(CircleShape),
-             contentScale = ContentScale.Crop
-         )*/
         AsyncImage(
             model = "https://image.tmdb.org/t/p/w500$posterPath",
             contentDescription = "csat photo",
@@ -45,11 +42,13 @@ fun CastItem(cast: Cast) {
         Text(
             text = cast.name,
             fontWeight = FontWeight.Bold,
+            fontSize = 14.sp,
             modifier = Modifier.padding(top = 10.dp)
         )
         Text(
             text = cast.character ?: "",
-            modifier = Modifier.padding(top = 3.dp)
+            fontSize = 12.sp,
+            lineHeight = 14.sp
         )
     }
 }

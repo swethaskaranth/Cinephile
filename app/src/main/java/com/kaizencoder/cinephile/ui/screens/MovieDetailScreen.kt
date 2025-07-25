@@ -1,11 +1,13 @@
 package com.kaizencoder.cinephile.ui.screens
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -59,7 +61,7 @@ fun MovieDetailScreen(
     if (movie != null) {
         LazyColumn(
             modifier
-                .padding(horizontal = 16.dp)
+                .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
         ) {
             val posterPath = movie.poster_path ?: ""
             item {
@@ -126,7 +128,7 @@ fun MovieDetailScreen(
                         if (isTextOverflowing || isExpanded)
                             Text(
                                 text = if (isExpanded) "Read Less" else "Read More",
-                                color = Color.Blue,
+                                color = Color(87, 153, 239),
                                 modifier = Modifier
                                     .padding(top = 5.dp)
                                     .clickable(onClick = {
@@ -139,7 +141,7 @@ fun MovieDetailScreen(
 
             item {
                 Row(
-                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
+                    modifier = Modifier.padding(vertical = 12.dp),
                     horizontalArrangement = Arrangement.spacedBy(10.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -181,30 +183,83 @@ fun MovieDetailScreen(
                 }
             }
 
-            item{
-                Column {
+            item {
+                Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
                     HorizontalDivider(
                         modifier = Modifier
                             .height(1.dp)
                     )
-                }
 
-                Text(
-                    text = "Top cast",
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(top = 12.dp, start = 16.dp)
-                )
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Text(
+                            text = "Director",
+                            style = MaterialTheme.typography.titleMedium,
+                            fontWeight = FontWeight.Bold,
+                        )
 
-                LazyRow(
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    modifier = Modifier.padding(top = 12.dp)
-                ) {
-                    items(creditsUiState.cast) {
-                        CastItem(it)
+                        Text(
+                            text = creditsUiState.directors.getOrNull(0)?.name ?: "",
+                            style = MaterialTheme.typography.titleMedium,
+                            color = Color(87, 153, 239),
+                            modifier = Modifier.padding(start = 12.dp)
+                        )
+                    }
+
+                    HorizontalDivider(
+                        modifier = Modifier
+                            .height(1.dp)
+                    )
+
+                    if (creditsUiState.writers.isNotEmpty()) {
+                        Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                            Text(
+                                text = "Writers",
+                                style = MaterialTheme.typography.titleMedium,
+                                fontWeight = FontWeight.Bold,
+                            )
+
+                            FlowRow(
+                                horizontalArrangement = Arrangement.spacedBy(10.dp),
+                                // verticalArrangement = Arrangement.spacedBy(4.dp),
+                            ) {
+                                Log.i("creditsUiState", "${creditsUiState.writers.size}")
+                                creditsUiState.writers.forEachIndexed { index, writer ->
+                                    Text(
+                                        text = writer.name,
+                                        style = MaterialTheme.typography.titleMedium,
+                                        color = Color(87, 153, 239),
+                                    )
+
+                                    if (index != creditsUiState.writers.lastIndex) {
+                                        Text(text = "·", color = Color.Gray,
+                                            fontSize = 20.sp)
+                                    }
+                                }
+                            }
+                        }
+
+
+                        HorizontalDivider(
+                            modifier = Modifier
+                                .height(1.dp)
+                        )
+                    }
+
+
+                    Text(
+                        text = "Top cast",
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold,
+                    )
+
+                    LazyRow(
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    ) {
+                        items(creditsUiState.cast) {
+                            CastItem(it)
+                        }
                     }
                 }
-
             }
 
         }
