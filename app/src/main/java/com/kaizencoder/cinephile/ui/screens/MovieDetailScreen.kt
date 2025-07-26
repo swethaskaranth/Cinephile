@@ -1,14 +1,11 @@
 package com.kaizencoder.cinephile.ui.screens
 
-import android.util.Log
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
@@ -46,6 +43,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
+import com.kaizencoder.cinephile.networking.response.Cast
+import com.kaizencoder.cinephile.networking.response.Crew
+import com.kaizencoder.cinephile.networking.response.Genre
+import com.kaizencoder.cinephile.networking.response.MovieDetail
 import com.kaizencoder.cinephile.ui.MovieDetailViewModel
 import com.kaizencoder.cinephile.ui.components.CastItem
 
@@ -60,209 +61,264 @@ fun MovieDetailScreen(
 
     if (movie != null) {
         LazyColumn(
-            modifier
+            verticalArrangement = Arrangement.spacedBy(12.dp),
+            modifier = modifier
                 .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
         ) {
-            val posterPath = movie.poster_path ?: ""
+
             item {
-                Text(
-                    text = movie.title,
-                    style = MaterialTheme.typography.titleLarge,
-                    modifier = Modifier.padding(top = 10.dp)
-                )
+                MovieTitle(movie.title)
             }
             item {
-                Row(modifier = Modifier.padding(top = 16.dp)) {
-                    AsyncImage(
-                        model = "https://image.tmdb.org/t/p/w500$posterPath",
-                        contentDescription = "Movie Poster",
-                        contentScale = ContentScale.Fit,
-                        modifier = Modifier
-                            .weight(0.7f)
-                            .aspectRatio(2f / 3f)
-                            .clip(
-                                RoundedCornerShape(
-                                    topEnd = 24.dp,
-                                    bottomEnd = 24.dp,
-                                    bottomStart = 24.dp
-                                )
-                            )
-                    )
-
-                    Spacer(Modifier.width(10.dp))
-
-                    Column(
-                        modifier = Modifier.weight(1f)
-                    ) {
-                        var isExpanded by remember { mutableStateOf(false) }
-                        var isTextOverflowing by remember { mutableStateOf(false) }
-                        LazyRow(
-                            horizontalArrangement = Arrangement.spacedBy(8.dp)
-                        ) {
-                            items(movie.genres) { genre ->
-                                Box(
-                                    contentAlignment = Alignment.Center,
-                                    modifier = Modifier
-                                        .border(
-                                            1.dp, MaterialTheme.colorScheme.onSecondaryContainer,
-                                            MaterialTheme.shapes.large
-                                        )
-                                        .padding(horizontal = 10.dp, vertical = 4.dp)
-                                ) {
-                                    Text(text = genre.name)
-                                }
-                            }
-                        }
-                        Text(
-                            text = movie.overview,
-                            modifier = Modifier.padding(top = 12.dp),
-                            style = MaterialTheme.typography.bodyMedium,
-                            maxLines = if (isExpanded) Int.MAX_VALUE else 10,
-                            overflow = TextOverflow.Ellipsis,
-                            onTextLayout = { layoutResult ->
-                                if (!isExpanded) {
-                                    isTextOverflowing = layoutResult.hasVisualOverflow
-                                }
-                            }
-                        )
-                        if (isTextOverflowing || isExpanded)
-                            Text(
-                                text = if (isExpanded) "Read Less" else "Read More",
-                                color = Color(87, 153, 239),
-                                modifier = Modifier
-                                    .padding(top = 5.dp)
-                                    .clickable(onClick = {
-                                        isExpanded = !isExpanded
-                                    })
-                            )
-                    }
-                }
+                MoviePosterAndOverview(movie)
             }
 
             item {
-                Row(
-                    modifier = Modifier.padding(vertical = 12.dp),
-                    horizontalArrangement = Arrangement.spacedBy(10.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-
-                    Icon(
-                        imageVector = Icons.Default.Star,
-                        contentDescription = "rating",
-                        tint = Color.Yellow,
-                        modifier = Modifier.size(20.dp)
-                    )
-
-                    Text(
-                        text = buildAnnotatedString {
-                            withStyle(SpanStyle(fontWeight = FontWeight.Bold, fontSize = 16.sp)) {
-                                append(String.format("%.1f", movie.vote_average))
-                            }
-                            withStyle(
-                                SpanStyle(
-                                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
-                                    fontSize = 12.sp
-                                )
-                            ) {
-                                append("/10")
-                            }
-
-                        },
-                        color = Color.White,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier.alignByBaseline()
-                    )
-
-                    Text(
-                        text = if (movie.vote_count > 1000) "${movie.vote_count / 1000}K" else movie.vote_count.toString(),
-                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
-                        fontSize = 12.sp,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier.alignByBaseline()
-                    )
-                }
+                MovieRating(movie.vote_average, movie.vote_count)
             }
 
             item {
-                Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                    HorizontalDivider(
-                        modifier = Modifier
-                            .height(1.dp)
-                    )
-
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text(
-                            text = "Director",
-                            style = MaterialTheme.typography.titleMedium,
-                            fontWeight = FontWeight.Bold,
-                        )
-
-                        Text(
-                            text = creditsUiState.directors.getOrNull(0)?.name ?: "",
-                            style = MaterialTheme.typography.titleMedium,
-                            color = Color(87, 153, 239),
-                            modifier = Modifier.padding(start = 12.dp)
-                        )
-                    }
-
-                    HorizontalDivider(
-                        modifier = Modifier
-                            .height(1.dp)
-                    )
-
-                    if (creditsUiState.writers.isNotEmpty()) {
-                        Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                            Text(
-                                text = "Writers",
-                                style = MaterialTheme.typography.titleMedium,
-                                fontWeight = FontWeight.Bold,
-                            )
-
-                            FlowRow(
-                                horizontalArrangement = Arrangement.spacedBy(10.dp),
-                                // verticalArrangement = Arrangement.spacedBy(4.dp),
-                            ) {
-                                Log.i("creditsUiState", "${creditsUiState.writers.size}")
-                                creditsUiState.writers.forEachIndexed { index, writer ->
-                                    Text(
-                                        text = writer.name,
-                                        style = MaterialTheme.typography.titleMedium,
-                                        color = Color(87, 153, 239),
-                                    )
-
-                                    if (index != creditsUiState.writers.lastIndex) {
-                                        Text(text = "·", color = Color.Gray,
-                                            fontSize = 20.sp)
-                                    }
-                                }
-                            }
-                        }
-
-
-                        HorizontalDivider(
-                            modifier = Modifier
-                                .height(1.dp)
-                        )
-                    }
-
-
-                    Text(
-                        text = "Top cast",
-                        style = MaterialTheme.typography.titleMedium,
-                        fontWeight = FontWeight.Bold,
-                    )
-
-                    LazyRow(
-                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    ) {
-                        items(creditsUiState.cast) {
-                            CastItem(it)
-                        }
-                    }
-                }
+                MovieCredits(creditsUiState)
             }
+        }
+    }
+}
+
+@Composable
+fun MovieTitle(title: String) {
+    Text(
+        text = title,
+        style = MaterialTheme.typography.titleLarge,
+        modifier = Modifier.padding(top = 10.dp)
+    )
+}
+
+@Composable
+fun MoviePosterAndOverview(movie: MovieDetail) {
+    val posterPath = movie.poster_path ?: ""
+
+    Row {
+
+        MoviePoster(posterPath, movie.title, Modifier.weight(0.7f))
+
+        Spacer(Modifier.width(10.dp))
+
+        Column(
+            modifier = Modifier.weight(1f)
+        ) {
+
+            GenreChips(movie.genres)
+
+            ExpandableOverview(movie.overview, Modifier.padding(top = 12.dp))
 
         }
     }
+}
 
+@Composable
+fun MoviePoster(posterPath: String, title: String, modifier: Modifier = Modifier) {
+    AsyncImage(
+        model = "https://image.tmdb.org/t/p/w500$posterPath",
+        contentDescription = "Poster of $title",
+        contentScale = ContentScale.Fit,
+        modifier = modifier
+            .aspectRatio(2f / 3f)
+            .clip(
+                RoundedCornerShape(
+                    topEnd = 24.dp,
+                    bottomEnd = 24.dp,
+                    bottomStart = 24.dp
+                )
+            )
+    )
+}
+
+@Composable
+fun GenreChips(genres: List<Genre>, modifier: Modifier = Modifier) {
+    LazyRow(
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        items(genres) { genre ->
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier
+                    .border(
+                        1.dp, MaterialTheme.colorScheme.onSecondaryContainer,
+                        MaterialTheme.shapes.large
+                    )
+                    .padding(horizontal = 10.dp, vertical = 4.dp)
+            ) {
+                Text(text = genre.name)
+            }
+        }
+    }
+}
+
+@Composable
+fun ExpandableOverview(overview: String, modifier: Modifier = Modifier) {
+    var isExpanded by remember { mutableStateOf(false) }
+    var isTextOverflowing by remember { mutableStateOf(false) }
+    Column(modifier = modifier) {
+        Text(
+            text = overview,
+            style = MaterialTheme.typography.bodyMedium,
+            maxLines = if (isExpanded) Int.MAX_VALUE else 10,
+            overflow = TextOverflow.Ellipsis,
+            onTextLayout = { layoutResult ->
+                if (!isExpanded) {
+                    isTextOverflowing = layoutResult.hasVisualOverflow
+                }
+            }
+        )
+        if (isTextOverflowing || isExpanded)
+            Text(
+                text = if (isExpanded) "Read Less" else "Read More",
+                color = Color(87, 153, 239),
+                modifier = Modifier
+                    .padding(top = 5.dp)
+                    .clickable(onClick = {
+                        isExpanded = !isExpanded
+                    })
+            )
+    }
+}
+
+@Composable
+fun MovieRating(
+    voteAverage: Double,
+    voteCount: Int,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(10.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+
+        Icon(
+            imageVector = Icons.Default.Star,
+            contentDescription = "rating",
+            tint = Color.Yellow,
+            modifier = Modifier.size(20.dp)
+        )
+
+        Text(
+            text = buildAnnotatedString {
+                withStyle(SpanStyle(fontWeight = FontWeight.Bold, fontSize = 16.sp)) {
+                    append(String.format("%.1f", voteAverage))
+                }
+                withStyle(
+                    SpanStyle(
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
+                        fontSize = 12.sp
+                    )
+                ) {
+                    append("/10")
+                }
+            },
+            color = Color.White,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.alignByBaseline()
+        )
+
+        Text(
+            text = if (voteCount > 1000) "${voteCount / 1000}K" else voteCount.toString(),
+            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
+            fontSize = 12.sp,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.alignByBaseline()
+        )
+    }
+}
+
+@Composable
+fun MovieCredits(creditsUiState: MovieDetailViewModel.CreditsUiState) {
+    Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+        HorizontalDivider(
+            thickness = 1.dp
+        )
+
+        creditsUiState.directors.firstOrNull()?.let {
+            CreditRow(label = "Director", name = it.name)
+
+            HorizontalDivider(
+                thickness = 1.dp
+            )
+        }
+
+
+        if (creditsUiState.writers.isNotEmpty()) {
+            WritersSection(creditsUiState.writers)
+            HorizontalDivider(
+                modifier = Modifier
+                    .height(1.dp)
+            )
+        }
+
+        CastSection(creditsUiState.cast)
+    }
+}
+
+@Composable
+fun CreditRow(label: String, name: String, modifier: Modifier = Modifier) {
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        Text(
+            text = label,
+            style = MaterialTheme.typography.titleMedium,
+            fontWeight = FontWeight.Bold,
+        )
+
+        Text(
+            text = name,
+            style = MaterialTheme.typography.titleMedium,
+            color = Color(87, 153, 239),
+            modifier = Modifier.padding(start = 12.dp)
+        )
+    }
+}
+
+@Composable
+fun WritersSection(writers: List<Crew>, modifier: Modifier = Modifier) {
+    Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+        Text(
+            text = "Writers",
+            style = MaterialTheme.typography.titleMedium,
+            fontWeight = FontWeight.Bold,
+        )
+
+        FlowRow(
+            horizontalArrangement = Arrangement.spacedBy(10.dp),
+        ) {
+            writers.forEachIndexed { index, writer ->
+                Text(
+                    text = writer.name,
+                    style = MaterialTheme.typography.titleMedium,
+                    color = Color(87, 153, 239),
+                )
+
+                if (index != writers.lastIndex) {
+                    Text(
+                        text = "·", color = Color.Gray,
+                        fontSize = 20.sp
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun CastSection(cast: List<Cast>, modifier: Modifier = Modifier) {
+    Text(
+        text = "Top cast",
+        style = MaterialTheme.typography.titleMedium,
+        fontWeight = FontWeight.Bold,
+    )
+
+    LazyRow(
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+    ) {
+        items(cast) {
+            CastItem(it)
+        }
+    }
 }
