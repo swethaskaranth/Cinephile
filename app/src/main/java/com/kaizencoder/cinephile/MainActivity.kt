@@ -36,57 +36,39 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             CinephileTheme {
-                Scaffold(
-                    modifier = Modifier.fillMaxSize(),
-                    topBar = {
-                        TopAppBar(
-                            title = {
-                                AppLogo()
+
+                val navController = rememberNavController()
+                NavHost(
+                    navController = navController,
+                    startDestination = Route.HomeScreen
+                ) {
+                    composable<Route.HomeScreen> {
+                        MovieHomeScreen(
+                            onNavigateToCategory = { category ->
+                                navController.navigate(Route.MovieListingScreen(category))
                             },
-                            actions = {
-                                Icon(
-                                    Icons.Default.Search, contentDescription = "Search",
-                                    modifier = Modifier.padding(horizontal = 16.dp)
-                                )
-                            }
-                        )
-                    }) { innerPadding ->
-                    val navController = rememberNavController()
-                    NavHost(
-                        navController = navController,
-                        startDestination = Route.HomeScreen
-                    ) {
-                        composable<Route.HomeScreen> {
-                            MovieHomeScreen(
-                                Modifier.padding(innerPadding),
-                                onNavigateToCategory = { category ->
-                                    navController.navigate(Route.MovieListingScreen(category))
-                                },
-                                onCardClick = { id ->
-                                    navController.navigate(Route.MovieDetailScreen(id))
+                            onCardClick = { id ->
+                                navController.navigate(Route.MovieDetailScreen(id))
 
-                                })
-                        }
-                        composable<Route.MovieListingScreen> { backStackEntry ->
-                            val details: Route.MovieListingScreen = backStackEntry.toRoute()
-                            MovieListScreen(
-                                details.category,
-                                Modifier.padding(innerPadding),
-                                onClick = { id ->
-                                    navController.navigate(Route.MovieDetailScreen(id))
-
-                                })
-                        }
-                        composable<Route.MovieDetailScreen> { backStackEntry ->
-                            val detailViewModel: MovieDetailViewModel = hiltViewModel()
-                            MovieDetailScreen(
-                                detailViewModel,
-                                Modifier.padding(innerPadding)
-                            )
-                        }
+                            })
                     }
+                    composable<Route.MovieListingScreen> { backStackEntry ->
+                        val details: Route.MovieListingScreen = backStackEntry.toRoute()
+                        MovieListScreen(
+                            details.category,
+                            onClick = { id ->
+                                navController.navigate(Route.MovieDetailScreen(id))
 
+                            })
+                    }
+                    composable<Route.MovieDetailScreen> { backStackEntry ->
+                        val detailViewModel: MovieDetailViewModel = hiltViewModel()
+                        MovieDetailScreen(
+                            detailViewModel,
+                        )
+                    }
                 }
+
             }
         }
     }

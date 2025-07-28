@@ -1,5 +1,6 @@
 package com.kaizencoder.cinephile.ui.screens
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -9,6 +10,7 @@ import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -19,9 +21,11 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -33,6 +37,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -43,6 +48,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
+import com.kaizencoder.cinephile.R
 import com.kaizencoder.cinephile.networking.response.Cast
 import com.kaizencoder.cinephile.networking.response.Crew
 import com.kaizencoder.cinephile.networking.response.Genre
@@ -56,32 +62,40 @@ fun MovieDetailScreen(
     modifier: Modifier = Modifier
 ) {
 
-    val movie = movieDetailViewModel.movie.collectAsStateWithLifecycle(null).value
-    val creditsUiState = movieDetailViewModel.creditsUiState.collectAsStateWithLifecycle().value
+    val movieDetail by movieDetailViewModel.movie.collectAsStateWithLifecycle(null)
+    val creditsUiState by movieDetailViewModel.creditsUiState.collectAsStateWithLifecycle()
 
-    if (movie != null) {
-        LazyColumn(
-            verticalArrangement = Arrangement.spacedBy(12.dp),
-            modifier = modifier
-                .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
-        ) {
+    Surface(
+        modifier = modifier.fillMaxSize()
+            .background(MaterialTheme.colorScheme.background)
+    ) {
+        movieDetail?.let { movie ->
+            LazyColumn(
+                verticalArrangement = Arrangement.spacedBy(12.dp),
+                modifier = modifier
+                    .padding(vertical = 16.dp, horizontal = 16.dp)
+            ) {
 
-            item {
-                MovieTitle(movie.title)
-            }
-            item {
-                MoviePosterAndOverview(movie)
-            }
+                item(key = "title") {
+                    MovieTitle(movie.title)
+                }
+                item(key = "poster_overview") {
+                    MoviePosterAndOverview(movie)
+                }
 
-            item {
-                MovieRating(movie.vote_average, movie.vote_count)
-            }
+                item(key = "rating") {
+                    MovieRating(movie.vote_average, movie.vote_count)
+                }
 
-            item {
-                MovieCredits(creditsUiState)
+                item(key = "credits") {
+                    MovieCredits(creditsUiState)
+                }
             }
+        } ?: run {
+            LoadingState(modifier)
         }
     }
+
 }
 
 @Composable
@@ -98,20 +112,11 @@ fun MoviePosterAndOverview(movie: MovieDetail) {
     val posterPath = movie.poster_path ?: ""
 
     Row {
-
         MoviePoster(posterPath, movie.title, Modifier.weight(0.7f))
 
-        Spacer(Modifier.width(10.dp))
+        Spacer(Modifier.width(16.dp))
 
-        Column(
-            modifier = Modifier.weight(1f)
-        ) {
-
-            GenreChips(movie.genres)
-
-            ExpandableOverview(movie.overview, Modifier.padding(top = 12.dp))
-
-        }
+        MovieInfo(movie.genres, movie.overview, Modifier.weight(1f))
     }
 }
 
@@ -129,8 +134,23 @@ fun MoviePoster(posterPath: String, title: String, modifier: Modifier = Modifier
                     bottomEnd = 24.dp,
                     bottomStart = 24.dp
                 )
-            )
+            ),
+        placeholder = painterResource(R.drawable.placeholder_movie_poster),
+        error = painterResource(R.drawable.error_movie_poster)
     )
+}
+
+@Composable
+fun MovieInfo(genres: List<Genre>, overview: String, modifier: Modifier = Modifier) {
+    Column(
+        modifier = modifier
+    ) {
+
+        GenreChips(genres)
+
+        ExpandableOverview(overview, Modifier.padding(top = 12.dp))
+
+    }
 }
 
 @Composable
@@ -138,7 +158,7 @@ fun GenreChips(genres: List<Genre>, modifier: Modifier = Modifier) {
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        items(genres) { genre ->
+        items(genres, key = { it.id }) { genre ->
             Box(
                 contentAlignment = Alignment.Center,
                 modifier = Modifier
@@ -197,7 +217,7 @@ fun MovieRating(
         Icon(
             imageVector = Icons.Default.Star,
             contentDescription = "rating",
-            tint = Color.Yellow,
+            tint = Color(0xFFFFD700),
             modifier = Modifier.size(20.dp)
         )
 
@@ -317,8 +337,18 @@ fun CastSection(cast: List<Cast>, modifier: Modifier = Modifier) {
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        items(cast) {
+        items(cast, key = { it.id }) {
             CastItem(it)
         }
+    }
+}
+
+@Composable
+fun LoadingState(modifier: Modifier = Modifier) {
+    Box(
+        modifier = modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        CircularProgressIndicator()
     }
 }

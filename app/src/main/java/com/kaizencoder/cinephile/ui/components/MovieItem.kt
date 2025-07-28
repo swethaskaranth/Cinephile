@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -31,6 +32,7 @@ import coil3.request.crossfade
 import coil3.util.DebugLogger
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.kaizencoder.cinephile.Constants
+import com.kaizencoder.cinephile.R
 import com.kaizencoder.cinephile.networking.response.Movie
 
 @OptIn(ExperimentalGlideComposeApi::class)
@@ -70,6 +72,7 @@ fun MovieItem(movie: Movie, onClick: (Int) -> Unit) {
                         .aspectRatio(2f / 3f)
                         .clip(RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp)),
                     contentScale = ContentScale.Fit,
+                    placeholder = painterResource(R.drawable.placeholder_movie_poster)
                 )
                     Rating(movie.vote_average, Modifier.align(Alignment.BottomStart)
                         .offset(y=20.dp)
