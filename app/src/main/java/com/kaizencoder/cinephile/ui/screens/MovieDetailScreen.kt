@@ -2,7 +2,6 @@ package com.kaizencoder.cinephile.ui.screens
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -56,6 +55,7 @@ import com.kaizencoder.cinephile.networking.response.Genre
 import com.kaizencoder.cinephile.networking.response.MovieDetail
 import com.kaizencoder.cinephile.ui.MovieDetailViewModel
 import com.kaizencoder.cinephile.ui.components.CastItem
+import java.util.Locale
 
 @Composable
 fun MovieDetailScreen(
@@ -156,7 +156,7 @@ fun MovieInfo(genres: List<Genre>, overview: String, modifier: Modifier = Modifi
 }
 
 @Composable
-fun GenreChips(genres: List<Genre>, modifier: Modifier = Modifier) {
+fun GenreChips(genres: List<Genre>) {
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
@@ -216,8 +216,7 @@ fun ExpandableOverview(overview: String, modifier: Modifier = Modifier) {
 @Composable
 fun MovieRating(
     voteAverage: Double,
-    voteCount: Int,
-    modifier: Modifier = Modifier
+    voteCount: Int
 ) {
     Row(
         horizontalArrangement = Arrangement.spacedBy(10.dp),
@@ -234,7 +233,7 @@ fun MovieRating(
         Text(
             text = buildAnnotatedString {
                 withStyle(SpanStyle(fontWeight = FontWeight.Bold, fontSize = 16.sp)) {
-                    append(String.format("%.1f", voteAverage))
+                    append(String.format(Locale.US, "%.1f", voteAverage))
                 }
                 withStyle(
                     SpanStyle(
@@ -289,7 +288,7 @@ fun MovieCredits(creditsUiState: MovieDetailViewModel.CreditsUiState) {
 }
 
 @Composable
-fun CreditRow(label: String, name: String, modifier: Modifier = Modifier) {
+fun CreditRow(label: String, name: String) {
     Row(verticalAlignment = Alignment.CenterVertically) {
         Text(
             text = label,
@@ -307,7 +306,7 @@ fun CreditRow(label: String, name: String, modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun WritersSection(writers: List<Crew>, modifier: Modifier = Modifier) {
+fun WritersSection(writers: List<Crew>) {
     Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
         Text(
             text = "Writers",
@@ -337,7 +336,7 @@ fun WritersSection(writers: List<Crew>, modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun CastSection(cast: List<Cast>, modifier: Modifier = Modifier) {
+fun CastSection(cast: List<Cast>) {
     Text(
         text = "Top cast",
         style = MaterialTheme.typography.titleMedium,

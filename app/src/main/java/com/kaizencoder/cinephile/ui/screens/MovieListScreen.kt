@@ -5,10 +5,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -27,7 +25,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.kaizencoder.cinephile.model.MovieCategory
-import com.kaizencoder.cinephile.model.MovieCategory.*
+import com.kaizencoder.cinephile.model.MovieCategory.NOW_PLAYING
+import com.kaizencoder.cinephile.model.MovieCategory.POPULAR
+import com.kaizencoder.cinephile.model.MovieCategory.TOP_RATED
+import com.kaizencoder.cinephile.model.MovieCategory.UPCOMING
 import com.kaizencoder.cinephile.ui.MovieViewModel
 import com.kaizencoder.cinephile.ui.components.AppLogo
 import com.kaizencoder.cinephile.ui.components.MovieItem
@@ -98,7 +99,7 @@ fun MovieListScreen(
                     modifier = Modifier.padding(innerPadding)
                 ) {
                     items(movies.itemCount) { index ->
-                        val movie = movies[index];
+                        val movie = movies[index]
                         movie?.let {
                             MovieItem(it, onClick)
                         }

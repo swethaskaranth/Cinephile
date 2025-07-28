@@ -25,11 +25,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import coil3.ImageLoader
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import coil3.request.crossfade
-import coil3.util.DebugLogger
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.kaizencoder.cinephile.Constants
 import com.kaizencoder.cinephile.R
@@ -50,15 +48,15 @@ fun MovieItem(movie: Movie, onClick: (Int) -> Unit) {
         }
         Column {
 
-            val context = LocalContext.current
+            //val context = LocalContext.current
             val posterPath = movie.poster_path ?: ""
             val imageUrl = "https://image.tmdb.org/t/p/w500$posterPath"
 
             Log.d("ImageType", "Type: ${imageUrl::class.simpleName}, Value: $imageUrl")
 
-            val imageLoader = ImageLoader.Builder(LocalContext.current)
+           /* val imageLoader = ImageLoader.Builder(LocalContext.current)
                 .logger(DebugLogger()) // Add this
-                .build()
+                .build()*/
 
             Box(Modifier.padding(bottom = 20.dp)) {
                 AsyncImage(
