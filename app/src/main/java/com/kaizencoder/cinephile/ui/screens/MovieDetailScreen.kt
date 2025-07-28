@@ -1,5 +1,6 @@
 package com.kaizencoder.cinephile.ui.screens
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -66,7 +67,8 @@ fun MovieDetailScreen(
     val creditsUiState by movieDetailViewModel.creditsUiState.collectAsStateWithLifecycle()
 
     Surface(
-        modifier = modifier.fillMaxSize()
+        modifier = modifier
+            .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
     ) {
         movieDetail?.let { movie ->
@@ -159,18 +161,26 @@ fun GenreChips(genres: List<Genre>, modifier: Modifier = Modifier) {
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items(genres, key = { it.id }) { genre ->
-            Box(
-                contentAlignment = Alignment.Center,
-                modifier = Modifier
-                    .border(
-                        1.dp, MaterialTheme.colorScheme.onSecondaryContainer,
-                        MaterialTheme.shapes.large
-                    )
-                    .padding(horizontal = 10.dp, vertical = 4.dp)
-            ) {
-                Text(text = genre.name)
-            }
+            GenreChip(genre.name)
         }
+    }
+}
+
+@Composable
+fun GenreChip(name: String) {
+    Surface(
+        shape = MaterialTheme.shapes.large,
+        border = BorderStroke(
+            width = 1.dp,
+            color = MaterialTheme.colorScheme.onSecondaryContainer,
+        ),
+        color = Color.Transparent
+    ) {
+        Text(
+            text = name,
+            modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp),
+            style = MaterialTheme.typography.labelMedium
+        )
     }
 }
 
@@ -228,7 +238,7 @@ fun MovieRating(
                 }
                 withStyle(
                     SpanStyle(
-                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
                         fontSize = 12.sp
                     )
                 ) {
@@ -241,8 +251,8 @@ fun MovieRating(
         )
 
         Text(
-            text = if (voteCount > 1000) "${voteCount / 1000}K" else voteCount.toString(),
-            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
+            text = formatVoteCount(voteCount),
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
             fontSize = 12.sp,
             textAlign = TextAlign.Center,
             modifier = Modifier.alignByBaseline()
@@ -352,3 +362,5 @@ fun LoadingState(modifier: Modifier = Modifier) {
         CircularProgressIndicator()
     }
 }
+
+fun formatVoteCount(voteCount: Int): String = if (voteCount > 1000) "${voteCount / 1000}K" else voteCount.toString()
