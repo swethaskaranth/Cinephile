@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import com.kaizencoder.cinephile.R
 import com.kaizencoder.cinephile.domain.model.CastMember
-import com.kaizencoder.cinephile.presentation.ui.theme.CinephileTheme
+import com.kaizencoder.cinephile.presentation.theme.CinephileTheme
 
 @Composable
 fun CastItem(cast: CastMember) {

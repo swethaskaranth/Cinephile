@@ -29,7 +29,7 @@ import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import coil3.request.crossfade
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
-import com.kaizencoder.cinephile.Constants
+import com.kaizencoder.cinephile.common.Constants
 import com.kaizencoder.cinephile.R
 import com.kaizencoder.cinephile.domain.model.Movie
 

@@ -1,4 +1,4 @@
-package com.kaizencoder.cinephile.presentation.ui.theme
+package com.kaizencoder.cinephile.presentation.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

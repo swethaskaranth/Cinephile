@@ -7,7 +7,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
-import com.kaizencoder.cinephile.data.networking.Resource
+import com.kaizencoder.cinephile.common.Resource
 import com.kaizencoder.cinephile.domain.usecases.detail.GetMovieCreditsUseCase
 import com.kaizencoder.cinephile.domain.usecases.detail.GetMovieDetailsUseCase
 import com.kaizencoder.cinephile.presentation.common.navigation.Route

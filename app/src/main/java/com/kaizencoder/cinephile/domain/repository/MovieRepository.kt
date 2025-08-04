@@ -1,7 +1,7 @@
 package com.kaizencoder.cinephile.domain.repository
 
 import androidx.paging.PagingData
-import com.kaizencoder.cinephile.data.networking.Resource
+import com.kaizencoder.cinephile.common.Resource
 import com.kaizencoder.cinephile.domain.model.Credits
 import com.kaizencoder.cinephile.domain.model.Movie
 import com.kaizencoder.cinephile.domain.model.MovieDetail

@@ -6,7 +6,7 @@ import androidx.paging.PagingData
 import com.kaizencoder.cinephile.data.mapper.toCredits
 import com.kaizencoder.cinephile.data.mapper.toMovieDetail
 import com.kaizencoder.cinephile.data.networking.APIService
-import com.kaizencoder.cinephile.data.networking.Resource
+import com.kaizencoder.cinephile.common.Resource
 import com.kaizencoder.cinephile.domain.model.Credits
 import com.kaizencoder.cinephile.domain.model.Movie
 import com.kaizencoder.cinephile.domain.model.MovieCategory
@@ -20,51 +20,32 @@ import javax.inject.Inject
 class MovieRepositoryImpl @Inject constructor(private val apiService: APIService) :
     MovieRepository {
 
-    override fun getPopularMovies(): Flow<PagingData<Movie>> {
-        val config = PagingConfig(
-            pageSize = 20
-        )
-        return Pager(
-            config = config,
-            pagingSourceFactory = { MoviePagingSource(apiService, MovieCategory.POPULAR) }
-        ).flow
-    }
+    override fun getPopularMovies(): Flow<PagingData<Movie>> = getMoviesPager(MovieCategory.POPULAR)
 
-    override fun getTopRatedMovies(): Flow<PagingData<Movie>> {
-        val config = PagingConfig(
-            pageSize = 20
-        )
-        return Pager(
-            config = config,
-            pagingSourceFactory = { MoviePagingSource(apiService, MovieCategory.TOP_RATED) }
-        ).flow
-    }
+    override fun getTopRatedMovies(): Flow<PagingData<Movie>> =
+        getMoviesPager(MovieCategory.TOP_RATED)
 
-    override fun getNowPlayingMovies(): Flow<PagingData<Movie>> {
-        val config = PagingConfig(
-            pageSize = 20
-        )
-        return Pager(
-            config = config,
-            pagingSourceFactory = { MoviePagingSource(apiService, MovieCategory.NOW_PLAYING) }
-        ).flow
-    }
+    override fun getNowPlayingMovies(): Flow<PagingData<Movie>> =
+        getMoviesPager(MovieCategory.NOW_PLAYING)
 
-    override fun getUpcomingMovies(): Flow<PagingData<Movie>> {
+    override fun getUpcomingMovies(): Flow<PagingData<Movie>> =
+        getMoviesPager(MovieCategory.UPCOMING)
+
+    private fun getMoviesPager(movieCategory: MovieCategory): Flow<PagingData<Movie>> {
         val config = PagingConfig(
             pageSize = 20
         )
         return Pager(
             config = config,
-            pagingSourceFactory = { MoviePagingSource(apiService, MovieCategory.UPCOMING) }
+            pagingSourceFactory = { MoviePagingSource(apiService, movieCategory) }
         ).flow
     }
 
     override suspend fun getMovieDetails(movieID: Int): Resource<MovieDetail> {
-        return try{
+        return try {
             val details = apiService.getMovieDetails(movieID).toMovieDetail()
             Resource.Success<MovieDetail>(details)
-        }catch (e: HttpException) {
+        } catch (e: HttpException) {
             Resource.Error<MovieDetail>(
                 e.localizedMessage ?: "Unexpected error occurred. Please try again in sometime."
             )

@@ -7,6 +7,7 @@ import com.kaizencoder.cinephile.data.mapper.toMovie
 import com.kaizencoder.cinephile.data.networking.APIService
 import com.kaizencoder.cinephile.domain.model.Movie
 import com.kaizencoder.cinephile.domain.model.MovieCategory
+import retrofit2.HttpException
 
 class MoviePagingSource(private val apiService: APIService, private val category: MovieCategory): PagingSource<Int, Movie>() {
 
@@ -29,7 +30,6 @@ class MoviePagingSource(private val apiService: APIService, private val category
                 MovieCategory.TOP_RATED -> apiService.getTopRatedMovies(page)
                 MovieCategory.UPCOMING -> apiService.getUpcomingMovies(page)
             }
-            Log.i("MovieListScreen", "Fetched results ${results.results.size}")
             LoadResult.Page(
                 data = results.results.map { it.toMovie() },
                 prevKey = if(page == 1) null else page.minus(1),
@@ -37,8 +37,11 @@ class MoviePagingSource(private val apiService: APIService, private val category
             )
         }catch (ex : Exception){
             ex.printStackTrace()
-            Log.i("MovieListScreen", "Threw exception ${ex.stackTrace}")
-            LoadResult.Error(ex)
+            when(ex){
+                is HttpException -> LoadResult.Error(ex)
+                else -> LoadResult.Error(ex)
+            }
+
         }
     }
 }

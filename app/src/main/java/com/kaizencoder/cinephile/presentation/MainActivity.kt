@@ -15,7 +15,7 @@ import com.kaizencoder.cinephile.presentation.moviedetail.MovieDetailScreen
 import com.kaizencoder.cinephile.presentation.moviedetail.MovieDetailViewModel
 import com.kaizencoder.cinephile.presentation.movielist.MovieListScreen
 import com.kaizencoder.cinephile.presentation.common.navigation.Route
-import com.kaizencoder.cinephile.presentation.ui.theme.CinephileTheme
+import com.kaizencoder.cinephile.presentation.theme.CinephileTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

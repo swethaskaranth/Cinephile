@@ -50,10 +50,6 @@ fun MovieHomeScreen(
         val topRatedMovies = movieViewModel.topRatedMovies.collectAsLazyPagingItems()
         val upcomingMovies = movieViewModel.upcomingMovies.collectAsLazyPagingItems()
 
-        LaunchedEffect(true) {
-            Log.i("MovieListScreen", "Inside Movie List Screen composable")
-        }
-
         LazyColumn(
             Modifier.padding(innerPadding),
             verticalArrangement = Arrangement.spacedBy(12.dp)

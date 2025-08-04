@@ -1,4 +1,4 @@
-package com.kaizencoder.cinephile
+package com.kaizencoder.cinephile.common
 
 object Constants {
 

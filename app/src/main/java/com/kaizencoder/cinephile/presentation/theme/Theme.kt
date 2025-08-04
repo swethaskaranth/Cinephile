@@ -1,4 +1,4 @@
-package com.kaizencoder.cinephile.presentation.ui.theme
+package com.kaizencoder.cinephile.presentation.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme

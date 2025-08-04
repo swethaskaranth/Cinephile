@@ -1,4 +1,4 @@
-package com.kaizencoder.cinephile.presentation.ui.theme
+package com.kaizencoder.cinephile.presentation.theme
 
 import androidx.compose.ui.graphics.Color
 

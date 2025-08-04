@@ -2,7 +2,7 @@ package com.kaizencoder.cinephile.di
 
 import android.util.Log
 import com.kaizencoder.cinephile.BuildConfig
-import com.kaizencoder.cinephile.Constants
+import com.kaizencoder.cinephile.common.Constants
 import com.kaizencoder.cinephile.data.networking.APIService
 import com.kaizencoder.cinephile.data.repository.MovieRepositoryImpl
 import com.kaizencoder.cinephile.domain.repository.MovieRepository
