@@ -3,13 +3,18 @@ package com.kaizencoder.cinephile.data.repository
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import com.kaizencoder.cinephile.data.mapper.toCredits
+import com.kaizencoder.cinephile.data.mapper.toMovieDetail
 import com.kaizencoder.cinephile.data.networking.APIService
-import com.kaizencoder.cinephile.data.networking.dto.MovieCreditsDto
-import com.kaizencoder.cinephile.data.networking.dto.MovieDetailDto
+import com.kaizencoder.cinephile.data.networking.Resource
+import com.kaizencoder.cinephile.domain.model.Credits
 import com.kaizencoder.cinephile.domain.model.Movie
 import com.kaizencoder.cinephile.domain.model.MovieCategory
+import com.kaizencoder.cinephile.domain.model.MovieDetail
 import com.kaizencoder.cinephile.domain.repository.MovieRepository
 import kotlinx.coroutines.flow.Flow
+import retrofit2.HttpException
+import java.io.IOException
 import javax.inject.Inject
 
 class MovieRepositoryImpl @Inject constructor(private val apiService: APIService) :
@@ -55,11 +60,35 @@ class MovieRepositoryImpl @Inject constructor(private val apiService: APIService
         ).flow
     }
 
-    override suspend fun getMovieDetails(movieID: Int): MovieDetailDto {
-        return apiService.getMovieDetails(movieID)
+    override suspend fun getMovieDetails(movieID: Int): Resource<MovieDetail> {
+        return try{
+            val details = apiService.getMovieDetails(movieID).toMovieDetail()
+            Resource.Success<MovieDetail>(details)
+        }catch (e: HttpException) {
+            Resource.Error<MovieDetail>(
+                e.localizedMessage ?: "Unexpected error occurred. Please try again in sometime."
+            )
+        } catch (e: IOException) {
+            Resource.Error<MovieDetail>(
+                e.localizedMessage
+                    ?: "Couldn't reach server. Please check your internet connection."
+            )
+        }
     }
 
-    override suspend fun getMovieCredits(movieId: Int): MovieCreditsDto {
-        return apiService.getMovieCredits(movieId)
+    override suspend fun getMovieCredits(movieId: Int): Resource<Credits> {
+        return try {
+            val detail = apiService.getMovieCredits(movieId).toCredits()
+            Resource.Success(detail)
+        } catch (e: HttpException) {
+            Resource.Error<Credits>(
+                e.localizedMessage ?: "Unexpected error occurred. Please try again in sometime."
+            )
+        } catch (e: IOException) {
+            Resource.Error<Credits>(
+                e.localizedMessage
+                    ?: "Couldn't reach server. Please check your internet connection."
+            )
+        }
     }
 }

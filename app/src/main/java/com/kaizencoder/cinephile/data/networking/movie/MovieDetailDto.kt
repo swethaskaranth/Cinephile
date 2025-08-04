@@ -1,4 +1,4 @@
-package com.kaizencoder.cinephile.data.networking.dto
+package com.kaizencoder.cinephile.data.networking.movie
 
 import com.kaizencoder.cinephile.domain.model.MovieDetail
 import java.util.Locale
@@ -55,13 +55,3 @@ data class SpokenLanguage(
     val name: String
 )
 
-fun MovieDetailDto.toMovieDetail(): MovieDetail = MovieDetail(
-    movieId = id,
-    title = title,
-    overview = overview,
-    genres = genres.map { it.name },
-    posterPath = poster_path,
-    releaseDate = release_date,
-    rating = String.format(Locale.US, "%.1f", vote_average),
-    totalVotes = if (vote_count > 1000) "${vote_count / 1000}K" else vote_count.toString()
-)

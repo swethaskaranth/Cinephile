@@ -29,9 +29,9 @@ import com.kaizencoder.cinephile.domain.model.MovieCategory.NOW_PLAYING
 import com.kaizencoder.cinephile.domain.model.MovieCategory.POPULAR
 import com.kaizencoder.cinephile.domain.model.MovieCategory.TOP_RATED
 import com.kaizencoder.cinephile.domain.model.MovieCategory.UPCOMING
-import com.kaizencoder.cinephile.presentation.components.AppLogo
-import com.kaizencoder.cinephile.presentation.components.MovieItem
-import com.kaizencoder.cinephile.presentation.util.shimmerAnimationEffect
+import com.kaizencoder.cinephile.presentation.common.components.AppLogo
+import com.kaizencoder.cinephile.presentation.common.components.MovieItem
+import com.kaizencoder.cinephile.presentation.common.effects.shimmerAnimationEffect
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

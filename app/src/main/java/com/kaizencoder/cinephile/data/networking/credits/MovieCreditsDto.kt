@@ -1,4 +1,4 @@
-package com.kaizencoder.cinephile.data.networking.dto
+package com.kaizencoder.cinephile.data.networking.credits
 
 import com.kaizencoder.cinephile.domain.model.CastMember
 import com.kaizencoder.cinephile.domain.model.Credits
@@ -53,11 +53,4 @@ fun Crew.toCrewMember(): CrewMember = CrewMember(
     department = known_for_department,
     job = job,
     profilePath = profile_path
-)
-
-fun MovieCreditsDto.toCredits(): Credits = Credits(
-    id = id,
-    castMembers = cast.map { it.toCastMember() },
-    directors = crew.filter { it.job == "Director" }.map { it.toCrewMember() },
-    writers = crew.filter { it.job == "Screenplay" }.map { it.toCrewMember() }
 )

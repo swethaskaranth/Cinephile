@@ -1,4 +1,4 @@
-package com.kaizencoder.cinephile.data.networking.dto
+package com.kaizencoder.cinephile.data.networking.movie
 
 import com.kaizencoder.cinephile.domain.model.Movie
 
@@ -24,13 +24,4 @@ data class MovieDto(
     val video: Boolean,
     val vote_average: Double,
     val vote_count: Int
-)
-
-fun MovieDto.toMovie(): Movie = Movie(
-    movieId = id,
-    title = title,
-    posterPath = poster_path,
-    releaseDate = release_date,
-    voteAverage = vote_average,
-    voteCount = vote_count
 )

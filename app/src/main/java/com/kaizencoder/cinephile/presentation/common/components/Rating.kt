@@ -1,4 +1,4 @@
-package com.kaizencoder.cinephile.presentation.components
+package com.kaizencoder.cinephile.presentation.common.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

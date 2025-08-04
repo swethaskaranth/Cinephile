@@ -1,8 +1,8 @@
 package com.kaizencoder.cinephile.data.networking
 
-import com.kaizencoder.cinephile.data.networking.dto.MovieCreditsDto
-import com.kaizencoder.cinephile.data.networking.dto.MovieDetailDto
-import com.kaizencoder.cinephile.data.networking.dto.MovieListDto
+import com.kaizencoder.cinephile.data.networking.credits.MovieCreditsDto
+import com.kaizencoder.cinephile.data.networking.movie.MovieDetailDto
+import com.kaizencoder.cinephile.data.networking.movie.MovieListDto
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query

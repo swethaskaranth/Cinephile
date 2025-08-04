@@ -8,9 +8,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.kaizencoder.cinephile.data.networking.Resource
-import com.kaizencoder.cinephile.domain.usecases.GetMovieCreditsUseCase
-import com.kaizencoder.cinephile.domain.usecases.GetMovieDetailsUseCase
-import com.kaizencoder.cinephile.presentation.util.Route
+import com.kaizencoder.cinephile.domain.usecases.detail.GetMovieCreditsUseCase
+import com.kaizencoder.cinephile.domain.usecases.detail.GetMovieDetailsUseCase
+import com.kaizencoder.cinephile.presentation.common.navigation.Route
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach

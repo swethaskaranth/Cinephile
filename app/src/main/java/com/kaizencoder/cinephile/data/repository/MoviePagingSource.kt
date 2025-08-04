@@ -3,8 +3,8 @@ package com.kaizencoder.cinephile.data.repository
 import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import com.kaizencoder.cinephile.data.mapper.toMovie
 import com.kaizencoder.cinephile.data.networking.APIService
-import com.kaizencoder.cinephile.data.networking.dto.toMovie
 import com.kaizencoder.cinephile.domain.model.Movie
 import com.kaizencoder.cinephile.domain.model.MovieCategory
 

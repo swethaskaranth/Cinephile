@@ -23,8 +23,8 @@ import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import com.kaizencoder.cinephile.domain.model.Movie
-import com.kaizencoder.cinephile.presentation.components.MovieItem
-import com.kaizencoder.cinephile.presentation.util.shimmerAnimationEffect
+import com.kaizencoder.cinephile.presentation.common.components.MovieItem
+import com.kaizencoder.cinephile.presentation.common.effects.shimmerAnimationEffect
 
 @Composable
 fun MovieSection(title: String, movies: LazyPagingItems<Movie>, onTitleClick : () -> Unit, onCardClick: (Int) -> Unit,) {

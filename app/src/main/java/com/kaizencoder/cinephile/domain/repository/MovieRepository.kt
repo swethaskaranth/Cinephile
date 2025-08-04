@@ -1,9 +1,10 @@
 package com.kaizencoder.cinephile.domain.repository
 
 import androidx.paging.PagingData
-import com.kaizencoder.cinephile.data.networking.dto.MovieCreditsDto
-import com.kaizencoder.cinephile.data.networking.dto.MovieDetailDto
+import com.kaizencoder.cinephile.data.networking.Resource
+import com.kaizencoder.cinephile.domain.model.Credits
 import com.kaizencoder.cinephile.domain.model.Movie
+import com.kaizencoder.cinephile.domain.model.MovieDetail
 import kotlinx.coroutines.flow.Flow
 
 interface MovieRepository {
@@ -16,8 +17,8 @@ interface MovieRepository {
 
     fun getUpcomingMovies(): Flow<PagingData<Movie>>
 
-    suspend fun getMovieDetails(movieID: Int): MovieDetailDto
+    suspend fun getMovieDetails(movieID: Int): Resource<MovieDetail>
 
-    suspend fun getMovieCredits(movieId: Int): MovieCreditsDto
+    suspend fun getMovieCredits(movieId: Int): Resource<Credits>
 
 }

@@ -5,10 +5,10 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.kaizencoder.cinephile.domain.model.Movie
-import com.kaizencoder.cinephile.domain.usecases.GetNowPlayingMoviesUseCase
-import com.kaizencoder.cinephile.domain.usecases.GetPopularMoviesUseCase
-import com.kaizencoder.cinephile.domain.usecases.GetTopRatedMoviesUseCase
-import com.kaizencoder.cinephile.domain.usecases.GetUpcomingMoviesUseCase
+import com.kaizencoder.cinephile.domain.usecases.movie.GetNowPlayingMoviesUseCase
+import com.kaizencoder.cinephile.domain.usecases.movie.GetPopularMoviesUseCase
+import com.kaizencoder.cinephile.domain.usecases.movie.GetTopRatedMoviesUseCase
+import com.kaizencoder.cinephile.domain.usecases.movie.GetUpcomingMoviesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject

@@ -1,4 +1,4 @@
-package com.kaizencoder.cinephile.domain.usecases
+package com.kaizencoder.cinephile.domain.usecases.movie
 
 import androidx.paging.PagingData
 import com.kaizencoder.cinephile.domain.model.Movie

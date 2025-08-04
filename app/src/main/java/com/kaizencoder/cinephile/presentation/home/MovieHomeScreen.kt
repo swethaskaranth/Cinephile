@@ -19,7 +19,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.kaizencoder.cinephile.domain.model.MovieCategory
 import com.kaizencoder.cinephile.presentation.movielist.MovieViewModel
-import com.kaizencoder.cinephile.presentation.components.AppLogo
+import com.kaizencoder.cinephile.presentation.common.components.AppLogo
 import com.kaizencoder.cinephile.presentation.home.components.MovieSection
 
 @OptIn(ExperimentalMaterial3Api::class)

@@ -1,4 +1,4 @@
-package com.kaizencoder.cinephile.presentation.util
+package com.kaizencoder.cinephile.presentation.common.effects
 
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable

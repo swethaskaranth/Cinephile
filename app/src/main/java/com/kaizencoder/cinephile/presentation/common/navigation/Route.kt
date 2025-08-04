@@ -1,4 +1,4 @@
-package com.kaizencoder.cinephile.presentation.util
+package com.kaizencoder.cinephile.presentation.common.navigation
 
 import com.kaizencoder.cinephile.domain.model.MovieCategory
 import kotlinx.serialization.Serializable
