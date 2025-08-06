@@ -1,15 +1,17 @@
 package com.kaizencoder.cinephile.data.repository
 
-import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.kaizencoder.cinephile.data.mapper.toMovie
 import com.kaizencoder.cinephile.data.networking.APIService
 import com.kaizencoder.cinephile.domain.model.Movie
 import com.kaizencoder.cinephile.domain.model.MovieCategory
-import retrofit2.HttpException
 
-class MoviePagingSource(private val apiService: APIService, private val category: MovieCategory): PagingSource<Int, Movie>() {
+@Suppress("TooGenericExceptionCaught")
+class MoviePagingSource(
+    private val apiService: APIService,
+    private val category: MovieCategory):
+    PagingSource<Int, Movie>() {
 
     override fun getRefreshKey(state: PagingState<Int, Movie>): Int? {
        return state.anchorPosition?.let { anchor ->
@@ -33,15 +35,11 @@ class MoviePagingSource(private val apiService: APIService, private val category
             LoadResult.Page(
                 data = results.results.map { it.toMovie() },
                 prevKey = if(page == 1) null else page.minus(1),
-                nextKey = if(page == results.total_pages) null else page.plus(1)
+                nextKey = if(page == results.totalPages) null else page.plus(1)
             )
-        }catch (ex : Exception){
-            ex.printStackTrace()
-            when(ex){
-                is HttpException -> LoadResult.Error(ex)
-                else -> LoadResult.Error(ex)
-            }
-
+        }
+        catch (ex: Exception){
+            LoadResult.Error(ex)
         }
     }
 }

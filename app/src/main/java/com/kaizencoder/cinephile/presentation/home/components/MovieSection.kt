@@ -27,7 +27,11 @@ import com.kaizencoder.cinephile.presentation.common.components.MovieItem
 import com.kaizencoder.cinephile.presentation.common.effects.shimmerAnimationEffect
 
 @Composable
-fun MovieSection(title: String, movies: LazyPagingItems<Movie>, onTitleClick : () -> Unit, onCardClick: (Int) -> Unit,) {
+fun MovieSection(
+    title: String,
+    movies: LazyPagingItems<Movie>,
+    onTitleClick : () -> Unit,
+    onCardClick: (Int) -> Unit,) {
 
     Column(
         modifier = Modifier.background(MaterialTheme.colorScheme.surfaceContainer)
@@ -53,7 +57,7 @@ fun MovieSection(title: String, movies: LazyPagingItems<Movie>, onTitleClick : (
                     modifier = Modifier.fillMaxWidth(),
                     contentPadding = PaddingValues(16.dp)
                 ) {
-                    items(5) {
+                    items(count = 5) {
                         Box(
                             modifier = Modifier
                                 .size(160.dp, 326.dp)

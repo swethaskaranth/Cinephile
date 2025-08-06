@@ -1,6 +1,5 @@
 package com.kaizencoder.cinephile.presentation.movielist
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -23,7 +22,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
+import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.kaizencoder.cinephile.domain.model.Movie
 import com.kaizencoder.cinephile.domain.model.MovieCategory
 import com.kaizencoder.cinephile.domain.model.MovieCategory.NOW_PLAYING
 import com.kaizencoder.cinephile.domain.model.MovieCategory.POPULAR
@@ -40,7 +41,6 @@ fun MovieListScreen(
     onClick: (Int) -> Unit,
     viewModel: MovieViewModel = hiltViewModel()
 ) {
-
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
@@ -65,49 +65,58 @@ fun MovieListScreen(
 
         when (movies.loadState.refresh) {
             is LoadState.Loading -> {
-                LazyVerticalGrid(
-                    columns = GridCells.Fixed(2),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp),
-                    contentPadding = PaddingValues(16.dp),
-                    modifier = Modifier.padding(innerPadding)
-                ) {
-                    items(10) {
-                        Box(
-                            modifier = Modifier
-                                .size(160.dp, 326.dp)
-                                .clip(RoundedCornerShape(12.dp))
-                                .shimmerAnimationEffect()
-                        )
-                    }
-                }
+                ShimmerView(Modifier.padding(innerPadding))
             }
 
             is LoadState.Error -> {
-                Log.i("ShimmerEffect", "Error state")
                 val e = movies.loadState.refresh as LoadState.Error
                 Text(text = "Error: ${e.error.localizedMessage}")
             }
 
             else -> {
-                LazyVerticalGrid(
-                    columns = GridCells.Fixed(2),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp),
-                    contentPadding = PaddingValues(16.dp),
-                    modifier = Modifier.padding(innerPadding)
-                ) {
-                    items(movies.itemCount) { index ->
-                        val movie = movies[index]
-                        movie?.let {
-                            MovieItem(it, onClick)
-                        }
-                    }
-                }
+                MovieGridView(movies, onClick, Modifier.padding(innerPadding))
             }
         }
-
     }
+}
 
+@Composable
+fun ShimmerView(modifier: Modifier = Modifier) {
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(2),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+        contentPadding = PaddingValues(16.dp),
+        modifier = modifier
+    ) {
+        items(count = 10) {
+            Box(
+                modifier = Modifier
+                    .size(160.dp, 326.dp)
+                    .clip(RoundedCornerShape(12.dp))
+                    .shimmerAnimationEffect()
+            )
+        }
+    }
+}
 
+@Composable
+fun MovieGridView(movies: LazyPagingItems<Movie>,
+                  onClick: (Int) -> Unit,
+                  modifier: Modifier = Modifier
+) {
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(2),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+        contentPadding = PaddingValues(16.dp),
+        modifier = modifier
+    ) {
+        items(movies.itemCount) { index ->
+            val movie = movies[index]
+            movie?.let {
+                MovieItem(it, onClick)
+            }
+        }
+    }
 }

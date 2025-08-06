@@ -1,57 +1,61 @@
 package com.kaizencoder.cinephile.data.networking.movie
 
-import com.kaizencoder.cinephile.domain.model.MovieDetail
-import java.util.Locale
 
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
+
+@JsonClass(generateAdapter = true)
 data class MovieDetailDto(
+    @field:Json(name = "adult")
     val adult: Boolean,
-    val backdrop_path: String?,
-    val belongs_to_collection: Any?,
+    @field:Json(name = "backdrop_path")
+    val backdropPath: String,
+    @field:Json(name = "belongs_to_collection")
+    val belongsToCollection: BelongsToCollection,
+    @field:Json(name = "budget")
     val budget: Int,
+    @field:Json(name = "genres")
     val genres: List<Genre>,
-    val homepage: String?,
+    @field:Json(name = "homepage")
+    val homepage: String,
+    @field:Json(name = "id")
     val id: Int,
-    val imdb_id: String?,
-    val origin_country: List<String>?,
-    val original_language: String?,
-    val original_title: String,
+    @field:Json(name = "imdb_id")
+    val imdbId: String,
+    @field:Json(name = "origin_country")
+    val originCountry: List<String>,
+    @field:Json(name = "original_language")
+    val originalLanguage: String,
+    @field:Json(name = "original_title")
+    val originalTitle: String,
+    @field:Json(name = "overview")
     val overview: String,
+    @field:Json(name = "popularity")
     val popularity: Double,
-    val poster_path: String?,
-    val production_companies: List<ProductionCompany>,
-    val production_countries: List<ProductionCountry>,
-    val release_date: String,
+    @field:Json(name = "poster_path")
+    val posterPath: String?,
+    @field:Json(name = "production_companies")
+    val productionCompanies: List<ProductionCompany>,
+    @field:Json(name = "production_countries")
+    val productionCountries: List<ProductionCountry>,
+    @field:Json(name = "release_date")
+    val releaseDate: String,
+    @field:Json(name = "revenue")
     val revenue: Int,
+    @field:Json(name = "runtime")
     val runtime: Int,
-    val spoken_languages: List<SpokenLanguage>,
+    @field:Json(name = "spoken_languages")
+    val spokenLanguages: List<SpokenLanguage>,
+    @field:Json(name = "status")
     val status: String,
+    @field:Json(name = "tagline")
     val tagline: String,
+    @field:Json(name = "title")
     val title: String,
+    @field:Json(name = "video")
     val video: Boolean,
-    val vote_average: Double,
-    val vote_count: Int
+    @field:Json(name = "vote_average")
+    val voteAverage: Double,
+    @field:Json(name = "vote_count")
+    val voteCount: Int
 )
-
-data class Genre(
-    val id: Int,
-    val name: String
-)
-
-data class ProductionCompany(
-    val id: Int,
-    val logo_path: String?,
-    val name: String,
-    val origin_country: String
-)
-
-data class ProductionCountry(
-    val iso_3166_1: String,
-    val name: String
-)
-
-data class SpokenLanguage(
-    val english_name: String,
-    val iso_639_1: String,
-    val name: String
-)
-

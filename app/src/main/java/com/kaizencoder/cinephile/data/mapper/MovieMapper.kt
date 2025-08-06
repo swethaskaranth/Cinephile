@@ -10,10 +10,10 @@ import java.util.Locale
 fun MovieDto.toMovie(): Movie = Movie(
     movieId = id,
     title = title,
-    posterPath = poster_path.orEmpty(),
-    releaseDate = release_date,
-    voteAverage = vote_average,
-    voteCount = vote_count
+    posterPath = posterPath.orEmpty(),
+    releaseDate = releaseDate,
+    voteAverage = voteAverage,
+    voteCount = voteCount
 )
 
 fun MovieDetailDto.toMovieDetail(): MovieDetail = MovieDetail(
@@ -21,8 +21,8 @@ fun MovieDetailDto.toMovieDetail(): MovieDetail = MovieDetail(
     title = title,
     overview = overview,
     genres = genres.map { it.name },
-    posterPath = poster_path.orEmpty(),
-    releaseDate = release_date,
-    rating = String.format(Locale.US, "%.1f", vote_average),
-    totalVotes = if (vote_count > 1000) "${vote_count / 1000}K" else vote_count.toString()
+    posterPath = posterPath.orEmpty(),
+    releaseDate = releaseDate,
+    rating = String.format(Locale.US, "%.1f", voteAverage),
+    totalVotes = if (voteCount > 1000) "${voteCount / 1000}K" else voteCount.toString()
 )

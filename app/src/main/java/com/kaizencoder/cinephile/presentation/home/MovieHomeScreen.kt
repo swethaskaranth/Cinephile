@@ -1,6 +1,5 @@
 package com.kaizencoder.cinephile.presentation.home
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -12,15 +11,14 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.kaizencoder.cinephile.domain.model.MovieCategory
-import com.kaizencoder.cinephile.presentation.movielist.MovieViewModel
 import com.kaizencoder.cinephile.presentation.common.components.AppLogo
 import com.kaizencoder.cinephile.presentation.home.components.MovieSection
+import com.kaizencoder.cinephile.presentation.movielist.MovieViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -87,6 +85,5 @@ fun MovieHomeScreen(
             }
         }
     }
-
 
 }

@@ -1,6 +1,5 @@
 package com.kaizencoder.cinephile.di
 
-import android.util.Log
 import com.kaizencoder.cinephile.BuildConfig
 import com.kaizencoder.cinephile.common.Constants
 import com.kaizencoder.cinephile.data.networking.APIService
@@ -22,7 +21,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 class AppModule {
 
     @Provides
-    fun moshi() = Moshi.Builder()
+    fun moshi(): Moshi = Moshi.Builder()
         .add(KotlinJsonAdapterFactory())
         .build()
 
@@ -38,7 +37,6 @@ class AppModule {
         .addInterceptor{ chain ->
             val original = chain.request()
             val token = BuildConfig.API_TOKEN
-            Log.i("MovieListScreen","Token added ${token}")
             val request = original.newBuilder()
                 .addHeader("accept", "application/json")
                 .addHeader("Authorization", "Bearer $token")
@@ -58,7 +56,7 @@ class AppModule {
     }
 
     @Provides
-    fun apiService(retrofit: Retrofit) = retrofit.create<APIService>(APIService::class.java)
+    fun apiService(retrofit: Retrofit): APIService = retrofit.create<APIService>(APIService::class.java)
 
     @Provides
     fun getMovieRepository(apiService: APIService) : MovieRepository= MovieRepositoryImpl(apiService)

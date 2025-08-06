@@ -67,7 +67,7 @@ fun MovieItem(movie: Movie, onClick: (Int) -> Unit) {
                     contentDescription = "movie_poster",
                     modifier = Modifier
                         .fillMaxWidth()
-                        .aspectRatio(2f / 3f)
+                        .aspectRatio(ratio = 2f / 3f)
                         .clip(RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp)),
                     contentScale = ContentScale.Fit,
                     placeholder = painterResource(R.drawable.placeholder_movie_poster)

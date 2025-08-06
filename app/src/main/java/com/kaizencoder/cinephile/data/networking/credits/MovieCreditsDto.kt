@@ -1,8 +1,8 @@
 package com.kaizencoder.cinephile.data.networking.credits
 
 import com.kaizencoder.cinephile.domain.model.CastMember
-import com.kaizencoder.cinephile.domain.model.Credits
 import com.kaizencoder.cinephile.domain.model.CrewMember
+import com.squareup.moshi.Json
 
 data class MovieCreditsDto(
     val cast: List<Cast>,
@@ -12,31 +12,40 @@ data class MovieCreditsDto(
 
 data class Cast(
     val adult: Boolean,
-    val cast_id: Int,
+    @field:Json(name = "cast_id")
+    val castId: Int,
     val character: String?,
-    val credit_id: String,
+    @field:Json(name = "credit_id")
+    val creditId: String,
     val gender: Int,
     val id: Int,
-    val known_for_department: String,
+    @field:Json(name = "known_for_department")
+    val knownForDepartment: String,
     val name: String,
     val order: Int,
-    val original_name: String,
+    @field:Json(name = "original_name")
+    val originalName: String,
     val popularity: Double,
-    val profile_path: String?
+    @field:Json(name = "profile_path")
+    val profilePath: String?
 )
 
 data class Crew(
     val adult: Boolean,
-    val credit_id: String,
+    @field:Json(name = "credit_id")
+    val creditId: String,
     val department: String,
     val gender: Int,
     val id: Int,
     val job: String,
-    val known_for_department: String,
+    @field:Json(name = "known_for_department")
+    val knownForDepartment: String,
     val name: String,
-    val original_name: String,
+    @field:Json(name = "original_name")
+    val originalName: String,
     val popularity: Double,
-    val profile_path: String?
+    @field:Json(name = "profile_path")
+    val profilePath: String?
 )
 
 fun Cast.toCastMember(): CastMember = CastMember(
@@ -44,13 +53,13 @@ fun Cast.toCastMember(): CastMember = CastMember(
     name = name,
     character = character,
     order = order,
-    profilePath = profile_path
+    profilePath = profilePath
 )
 
 fun Crew.toCrewMember(): CrewMember = CrewMember(
     id = id,
     name = name,
-    department = known_for_department,
+    department = knownForDepartment,
     job = job,
-    profilePath = profile_path
+    profilePath = profilePath
 )

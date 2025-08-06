@@ -23,20 +23,20 @@ fun Rating(rating: Double, modifier: Modifier) {
         contentAlignment = Alignment.Center,
         modifier = modifier
             .size(48.dp)
-            .background(Color(0xFF0B1E2D), shape = CircleShape)
+            .background(Color(color = 0xFF0B1E2D), shape = CircleShape)
             .padding(3.dp)
 
     ) {
         CircularProgressIndicator(
             progress = { 1f },
-            color = Color(0xFF193341),
+            color = Color(color = 0xFF193341),
             strokeWidth = 4.dp,
             strokeCap = StrokeCap.Butt
         )
         CircularProgressIndicator(
             progress = { (rating / 10f).toFloat() },
-            color = Color(0xFF2BD97D),
-            trackColor = Color(0xFF193341),
+            color = Color(color = 0xFF2BD97D),
+            trackColor = Color(color = 0xFF193341),
             strokeWidth = 4.dp,
             strokeCap = StrokeCap.Round
         )
@@ -51,5 +51,5 @@ fun Rating(rating: Double, modifier: Modifier) {
 @Preview(showSystemUi = true)
 @Composable
 private fun RatingPreview() {
-    Rating(8.14, Modifier)
+    Rating(rating = 8.14, Modifier)
 }

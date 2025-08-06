@@ -10,7 +10,7 @@ import javax.inject.Inject
 class GetMovieDetailsUseCase @Inject constructor(private val movieRepository: MovieRepository) {
 
     operator fun invoke(movieId: Int): Flow<Resource<MovieDetail>> = flow {
-        emit(Resource<MovieDetail>.Loading())
+        emit(Resource.Loading())
         emit(movieRepository.getMovieDetails(movieId))
     }
 }

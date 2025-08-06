@@ -31,10 +31,10 @@ fun AppLogo() {
             text = buildAnnotatedString {
                 val appName = stringResource(R.string.app_name)
                 withStyle(style = SpanStyle(color = Color.Black)) {
-                    append(appName.substring(0,4))
+                    append(appName.substring(startIndex = 0, endIndex = 4))
                 }
-                withStyle(style = SpanStyle(color = Color(6, 84, 43))) {
-                    append(appName.substring(4, appName.length))
+                withStyle(style = SpanStyle(color = Color(red = 6, green = 84, blue = 43))) {
+                    append(appName.substring(startIndex = 4, endIndex = appName.length))
                 }
             },
             style = MaterialTheme.typography.titleLarge,

@@ -23,16 +23,16 @@ fun Modifier.shimmerAnimationEffect(): Modifier = composed {
         initialValue = -2 * size.value.width.toFloat(),
         targetValue = 2 * size.value.width.toFloat(),
         animationSpec = infiniteRepeatable(
-            animation = tween(1000)
+            animation = tween(durationMillis = 1000)
         ), label = ""
     )
 
     background(
         brush = Brush.linearGradient(
             colors = listOf(
-                Color(0xFFE4E2E2),
-                Color(0xFFBEBDBD),
-                Color(0xFFE4E2E2),
+                Color(color = 0xFFE4E2E2),
+                Color(color = 0xFFBEBDBD),
+                Color(color = 0xFFE4E2E2),
             ),
             start = Offset(startOffsetX, 0f),
             end = Offset(startOffsetX + size.value.width.toFloat(), size.value.height.toFloat())
