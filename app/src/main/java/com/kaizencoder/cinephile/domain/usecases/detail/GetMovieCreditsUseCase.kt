@@ -10,6 +10,7 @@ import javax.inject.Inject
 class GetMovieCreditsUseCase @Inject constructor(private val movieRepository: MovieRepository) {
 
     operator fun invoke(movieId: Int): Flow<Resource<Credits>>  = flow {
+        emit(Resource<Credits>.Loading())
         emit(movieRepository.getMovieCredits(movieId))
     }
 
