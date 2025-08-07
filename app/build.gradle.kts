@@ -88,6 +88,8 @@ dependencies {
     implementation(libs.coil)
     implementation(libs.coil.network)
     implementation(libs.gilde)
+
+    implementation(libs.konsist)
 }
 
 detekt {

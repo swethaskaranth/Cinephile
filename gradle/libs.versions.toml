@@ -23,6 +23,7 @@ coil_version = "3.2.0"
 httpLoggingInterceptor = "5.1.0"
 glide_version  = "1.0.0-beta01"
 detekt_version = "1.23.8"
+konsist_version = "0.17.3"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -54,6 +55,7 @@ paging-compose = { group = "androidx.paging", name = "paging-compose", version.r
 coil = { group = "io.coil-kt.coil3", name  = "coil-compose", version.ref = "coil_version"}
 coil-network = { group = "io.coil-kt.coil3", name = "coil-network-okhttp", version.ref = "coil_version"}
 gilde = { module = "com.github.bumptech.glide:compose", version.ref = "glide_version"}
+konsist = { group = "com.lemonappdev", name = "konsist", version.ref = "konsist_version"}
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
