@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt.android)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.detekt)
 }
 
 val apiKey: String? = project.findProperty("API_KEY") as String?
@@ -87,4 +88,16 @@ dependencies {
     implementation(libs.coil)
     implementation(libs.coil.network)
     implementation(libs.gilde)
+
+    implementation(libs.konsist)
+}
+
+detekt {
+    // Path to your generated config
+    config.setFrom(files("$rootDir/config/detekt/detekt.yml"))
+
+    // Keep default rules and just override in your config
+    buildUponDefaultConfig = true
+
+    parallel = true
 }
